@@ -1031,8 +1031,15 @@ var S = (function(){
       return p;
     }
   } catch(e) {}
+  // Compute totals directly from RAW_DATA so they are always accurate
+  var _ld=0, _of=0, _nid=1;
+  for (var _i=0;_i<RAW_DATA.length;_i++) {
+    _ld += RAW_DATA[_i].loaded || 0;
+    _of += RAW_DATA[_i].offloaded || 0;
+    if (RAW_DATA[_i].id >= _nid) _nid = RAW_DATA[_i].id + 1;
+  }
   return {
-    loaded:10661.08, offloaded:9300.81, nextId:400,
+    loaded:parseFloat(_ld.toFixed(3)), offloaded:parseFloat(_of.toFixed(3)), nextId:_nid,
     tf:'all', ts:'', af:'al', as:'',
     trips: JSON.parse(JSON.stringify(RAW_DATA)),
     lastImport:null
